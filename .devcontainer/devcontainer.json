@@ -1,0 +1,97 @@
+{
+  "name": "IOperaciones Dev (Python, Node, bun, LAMP, Ollama)",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".",
+    "args": {
+      "PYTHON_VERSION": "3.14",
+      "NODE_VERSION": "24",
+      "BUN_VERSION": "1.4.4",
+      "OPENCODE_VERSION": "2.2.0",
+      "OLLAMA_VERSION": "0.40.12"
+    }
+  },
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspaces/ioperaciones",
+  "runArgs": [
+    "--hostname",
+    "ioperaciones"
+  ],
+  "mounts": [
+    "source=iop-pgdata,target=/var/lib/postgresql/18/main,type=volume",
+    "source=iop-ollama-models,target=/home/vscode/.ollama,type=volume",
+    "source=iop-opencode-data,target=/home/vscode/.local/share/opencode,type=volume",
+    "source=iop-opencode-config,target=/home/vscode/.config/opencode,type=volume",
+    "source=iop-uv-cache,target=/home/vscode/.cache/uv,type=volume",
+    "source=iop-composer-cache,target=/home/vscode/.cache/composer,type=volume"
+  ],
+  "containerEnv": {
+    "OLLAMA_HOST": "127.0.0.1:11434",
+    "OLLAMA_MODELS": "/home/vscode/.ollama/models",
+    "DATABASE_URL": "postgresql://dev:dev@localhost:5432/dev",
+    "PGHOST": "localhost",
+    "PGPORT": "5432",
+    "PGUSER": "dev",
+    "PGPASSWORD": "dev",
+    "PGDATABASE": "dev",
+    "PYTHONUNBUFFERED": "1",
+    "UV_LINK_MODE": "copy"
+  },
+  "forwardPorts": [
+    8080,
+    11434,
+    2222,
+    3000,
+    5173,
+    8000
+  ],
+  "portsAttributes": {
+    "8080": {
+      "label": "Apache + PHP",
+      "onAutoForward": "notify"
+    },
+    "11434": {
+      "label": "Ollama",
+      "onAutoForward": "silent"
+    },
+    "2222": {
+      "label": "SSH interno",
+      "onAutoForward": "silent"
+    },
+    "3000": {
+      "label": "App Node/bun",
+      "onAutoForward": "silent"
+    },
+    "5173": {
+      "label": "Vite",
+      "onAutoForward": "silent"
+    },
+    "8000": {
+      "label": "App Python",
+      "onAutoForward": "silent"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
+  "postStartCommand": "bash .devcontainer/scripts/post-start.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug",
+        "ms-ossdata.vscode-pgsql",
+        "esbenp.prettier-vscode",
+        "EditorConfig.EditorConfig"
+      ],
+      "settings": {
+        "php.validate.executablePath": "/usr/bin/php8.4",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.eol": "\n",
+        "editor.formatOnSave": false,
+        "python.terminal.activateEnvironment": true
+      }
+    }
+  }
+}

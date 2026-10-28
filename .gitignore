@@ -1,0 +1,24 @@
+# Entorno
+.env
+.devcontainer/ssh/authorized_keys
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Node / bun
+node_modules/
+dist/
+build/
+.bun/
+
+# PHP
+vendor/
+
+# Logs y temporales
+*.log
+.DS_Store

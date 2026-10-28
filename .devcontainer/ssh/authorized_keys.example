@@ -1,0 +1,6 @@
+# Claves públicas autorizadas para el sshd interno del contenedor (puerto 2222).
+# Copia este archivo como "authorized_keys" y pega una clave por línea:
+#
+# ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... usuario@equipo
+#
+# El archivo authorized_keys está en .gitignore.
